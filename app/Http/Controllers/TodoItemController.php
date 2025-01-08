@@ -12,7 +12,8 @@ class TodoItemController extends Controller
      */
     public function index()
     {
-        return TodoItem::all();
+        $todos = TodoItem::all(); // or whatever query you're using
+        return view('create_todo', compact('todos'));
     }
 
     /**
@@ -41,7 +42,11 @@ class TodoItemController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // we have to find the Todo item by id.
+        $todo = TodoItem::findOrFail($id);
+        // Return the data . Also If we want the flow to return an HTML view instead, we could replace the JSON response with:
+        //return view('todo.show', compact('todo'));
+        return response()->json($todo);
     }
 
     /**
@@ -49,7 +54,9 @@ class TodoItemController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $todo = TodoItem::findorfail($id);
+        return view('edit_todo', compact('todo'));// Pass it to the view.
+        //The compact() function creates an array with the variable todo and its value. 
     }
 
     /**
@@ -57,17 +64,27 @@ class TodoItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'info' => 'required|string|min:3|max:255',
+        ]);
+        // finding the Todo item by id and update its fields.
+        $todo = TodoItem::findOrFail($id);
+        $todo->update($data);
+        // Redirect or respond with a success message.
+        return redirect()->route('todo.index')->with('success', 'Todo item updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(string $id)
     {
-        Post::findOrFail($id)->delete(); //findOrFail() is a function
-    
-        return response()->json(['message' => 'Deleted successfully']);
+        //  Find the Todo item by ID or fail if not found
+        $todo = TodoItem::findOrFail($id);
+
+        // Step 2: Delete the Todo item
+        $todo->delete();
+
+        // Step 3: Redirect with a success message
+        return redirect()->route('todo.index')->with('success', 'Todo item deleted successfully.');
     
 
     }

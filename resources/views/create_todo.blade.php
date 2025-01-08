@@ -21,7 +21,8 @@
     <div class="row">
         <div class="col-md-3 m-auto" style="margin-left: 500px">
             <h3>My todo App</h3>
-            <form method="post" action="/todo">
+            <form method="post" action="/todo"><!--normally for saving form we use POST  -->
+                <!-- form action ->attribute specifies the URL where the form data should be sent for processing when the user submits the form.-->
                 <div class="form-group">
                 <input type="text"  name="info"placeholder="Enter your todo" required/>
                </div>
@@ -45,11 +46,33 @@
                         <th>Action</th>
                     </tr> 
                 </thread>
+                <tbody>
+                @foreach($todos as $index => $todo)
+                <tr>
+                   <td>{{ $index + 1 }}</td> <!-- Displaying Serial Number --> 
+                   <td>{{ $todo->info }}</td> <!-- Displaying the Todo Info -->
+                   <td>
+                        <!-- Edit Button -->
+                        <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-warning">Edit</a>
+                    </td>
+
+                    <td>
+                            <!-- For the Delete button -->
+                            <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this Todo item?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                    </td>
+                </tr>
+                @endforeach
+                </tbody>
                 
             </table>
         </div>
     </div>
 </body>
+</html>
 
 
 
