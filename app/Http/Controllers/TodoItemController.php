@@ -13,7 +13,9 @@ class TodoItemController extends Controller
     public function index()
     {
         $todos = TodoItem::all(); // or whatever query you're using
-        return view('create_todo', compact('todos'));
+        //::all() is a method that gets all the records (or rows) from the todo_items table.
+        return view('create_todo', compact('todos')); 
+        //compact('todos') is a helper function in PHP that creates an array and sends the $todos variable to the view.
     }
 
     /**
@@ -29,7 +31,10 @@ class TodoItemController extends Controller
      */
     public function store(Request $request)
     {
+        //The $request variable represents the incoming HTTP request from the user. 
+        //It contains all the data submitted by the user through a form.
         $data=$request->validate([
+            //The $data variable stores the validated data after the validation has passed.
             'info'=>'required|string|min:3|max:255' ,
 
         ]);
@@ -43,7 +48,7 @@ class TodoItemController extends Controller
     public function show(string $id)
     {
         // we have to find the Todo item by id.
-        $todo = TodoItem::findOrFail($id);
+        $todo = TodoItem::findOrFail($id);//If the todo item is found, it stores it in the $todo variable.
         // Return the data . Also If we want the flow to return an HTML view instead, we could replace the JSON response with:
         //return view('todo.show', compact('todo'));
         return response()->json($todo);
@@ -55,7 +60,7 @@ class TodoItemController extends Controller
     public function edit(string $id)
     {
         $todo = TodoItem::findorfail($id);
-        return view('edit_todo', compact('todo'));// Pass it to the view.
+        return view('edit_todo', compact('todo'));
         //The compact() function creates an array with the variable todo and its value. 
     }
 
