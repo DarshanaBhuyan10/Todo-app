@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Edit Todo Item</h2>
     <form method="POST" action="{{ route('todo.update', $todo->id) }}">
-        @csrf
+        @csrf <!--ensure that the form submission comes from your application and not from some malicious source. -->
         @method('PUT')
         <div class="form-group">
             <label for="info">Todo Info:</label>

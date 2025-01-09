@@ -27,7 +27,7 @@
                 <input type="text"  name="info"placeholder="Enter your todo" required/>
                </div>
             
-            @csrf
+            @csrf<!--protects form from security attacks. -->
             <button type="submit" class="btn btn-primary" > Save </button>
             
     
@@ -49,18 +49,25 @@
                 <tbody>
                 @foreach($todos as $index => $todo)
                 <tr>
-                   <td>{{ $index + 1 }}</td> <!-- Displaying Serial Number --> 
+                   <td>{{ $index + 1 }}</td> <!-- Displaying Serial Number --> <!-- Display the serial number (index starts at 0, so add 1) -->
                    <td>{{ $todo->info }}</td> <!-- Displaying the Todo Info -->
                    <td>
                         <!-- Edit Button -->
                         <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-warning">Edit</a>
+                        <!--This refers to the name ('todo.edit') of a route that you defined .
+                        ($todo->id) is accessing the ID of the current Todo item, which is unique to that item.
+                        -->
                     </td>
 
                     <td>
                             <!-- For the Delete button -->
                             <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this Todo item?');">
-                                @csrf
-                                @method('DELETE')
+                                <!--POST: Used to send data to the server to be processed (such as creating, updating, or deleting data).-->
+                                @csrf <!--ensures security by preventing attacks from malicious websites.-->
+                                @method('DELETE')<!-- The @method('DELETE') is a Blade directive in Laravel that allows you to override the HTTP method. 
+                                This means that when the form is submitted, 
+                                Laravel knows to handle it as a DELETE request, not just a regular POST request.-->
+                                
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                     </td>
