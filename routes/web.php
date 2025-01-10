@@ -12,9 +12,17 @@ Route::get('/todo', [TodoItemController::class,'index'])->name('todo.index');
 
 // Route to show the form for creating a new item (create)
 Route::get('/todo_create', [TodoItemController::class,'create'])->name('todo.create');
+//We can change the route names here. 
+//By reassigning /todo to the create method, the index route for /todo is no longer accessible. 
+//When Laravel tries to find the todo.index route (as referenced in your code), it cannot locate it.
+
+
 
 // Route to store a new item in the database (store)
 Route::post('/todo', [TodoItemController::class,'store'])->name('todo.store');
+//Even though both routes share the same URI (/todo), their route names are distinct:
+//One is todo.index (for GET requests).
+//The other is todo.store (for POST requests).
 
 
 
