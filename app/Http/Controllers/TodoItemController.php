@@ -14,7 +14,7 @@ class TodoItemController extends Controller
     {
         $todos = TodoItem::all(); // or whatever query you're using
         //::all() is a method that gets all the records (or rows) from the todo_items table.
-        return view('create_todo', compact('todos')); 
+        return view('create_todo', compact('todos')); //create_todo file name hai.
         //compact('todos') is a helper function in PHP that creates an array and sends the $todos variable to the view.
     }
 
@@ -23,7 +23,7 @@ class TodoItemController extends Controller
      */
     public function create()
     {
-        return view('create_todo');
+        return view('create_todo');// yaha create_todo file will be shown.
     }
 
     /**
@@ -77,6 +77,8 @@ class TodoItemController extends Controller
         $todo->update($data);
         // Redirect or respond with a success message.
         return redirect()->route('todo.index')->with('success', 'Todo item updated successfully.');
+        //once the data is updated it will redirect to todo.index route in which it will go to index function.
+        //And in index function it will return view('create_todo') file/page.
     }
 
     
